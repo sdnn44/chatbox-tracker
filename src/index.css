@@ -10,7 +10,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: rgba(35, 5, 40);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,3 +18,19 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+  /* Chrome, Edge, and Safari */
+  body::-webkit-scrollbar, .scrollbar-style::-webkit-scrollbar, .sidebar-list::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: #200323;
+  }
+
+  body::-webkit-scrollbar-thumb, .scrollbar-style::-webkit-scrollbar-thumb, .sidebar-list::-webkit-scrollbar-thumb {
+    background-color: #200323 ;
+    border-radius: 0px;
+    border: 3px none #ffffff;
+  }
