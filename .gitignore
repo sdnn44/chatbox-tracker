@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+strefaskilla-chatbox-firebase-adminsdk-brfvj-0a94920fde.json
+chatbox-structure.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
