@@ -1,5 +1,16 @@
 import { JSDOM } from "jsdom";
+import { v4 as uuidv4 } from "uuid";
+
 import { db } from "../firebase/firebase.js";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
 
 import fs from "fs";
 import path from "path";
@@ -38,9 +49,28 @@ async function addToFirestore() {
     };
 
     try {
-      const userRef = db.collection("users").doc(userName);
-      const dateTimeRef = userRef.collection(timestamp.toISOString());
-      const res = await dateTimeRef.add(userData);
+      const response = await getDoc(doc(db, "users", userName));
+      if (!response.exists()) {
+        await setDoc(doc(db, "users", userName), { messages: [] });
+        console.log("Użytkownik został dodany do listy kontaktów");
+      } else {
+        console.error(
+          "Wybrany użytkownik już znajduje się w Twojej liście kontaków"
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      await updateDoc(doc(db, "users", userName), {
+        messages: arrayUnion({
+          id: uuidv4(),
+          message,
+          date: timestamp,
+          img: userPhoto,
+        }),
+      });
       console.log(
         `Added/Updated message for user: ${userName} at ${timestamp}`
       );
