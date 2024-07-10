@@ -10,7 +10,10 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: rgba(35, 5, 40);
+  /* background-color: #230528; */
+  background-image: url("./assets/bg.webp");
+  background-image: image-set("/../images/image-370x370.webp", "./assets/bg.webp");
+  background-image: -webkit-image-set("/../images/image-370x370.webp", "./assets/bg.webp");
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
