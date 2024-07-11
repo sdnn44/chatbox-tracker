@@ -4,7 +4,6 @@ const Message = ({ messages, senderName, jumpToRef }) => {
   const isEmote = (str) => {
     const regex =
       /<img src="https:\/\/strefaskilla\.pl\/uploads\/emoticons\/[^"]+\.png" loading="lazy" title=":tf:" alt=":tf:" data-emoticon="true">/;
-    console.log(regex.test(str));
     return regex.test(str);
   };
 

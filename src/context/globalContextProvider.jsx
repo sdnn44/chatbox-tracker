@@ -13,9 +13,11 @@ const AppProvider = ({ children }) => {
   const { username: urlUsername } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; 
+  const itemsPerPage = 5;
 
-  const fetchChatboxUsers = () => {
+  const [chatboxUsernames, setChatboxUsernames] = useState([]);
+
+  const fetchSpecificChatboxUser = () => {
     const dbRef = ref(database);
     get(child(dbRef, `chatbox/users/${senderName}`))
       .then((snapshot) => {
@@ -27,8 +29,28 @@ const AppProvider = ({ children }) => {
             ...messages[key],
           }));
           setUserMessages(messagesArray);
-          setChatterAvatar(messagesArray[0].img)
-          console.log(messagesArray);
+          setChatterAvatar(messagesArray[0].img);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const fetchAllChatboxNames = () => {
+    const dbRef = ref(database);
+    get(child(dbRef, `chatbox/users`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const usersData = snapshot.val();
+          const userNames = Object.keys(usersData);
+          console.log(userNames);
+          setChatboxUsernames(userNames);
         } else {
           console.log("No data available");
         }
@@ -42,13 +64,13 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchChatboxUsers();
+    fetchSpecificChatboxUser();
+    fetchAllChatboxNames();
   }, []);
 
   const paginateMessages = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    console.log(userMessages.slice(startIndex, endIndex))
     return userMessages.slice(startIndex, endIndex);
   };
 
@@ -76,6 +98,7 @@ const AppProvider = ({ children }) => {
         prevPage,
         itemsPerPage,
         paginateMessages,
+        chatboxUsernames,
       }}
     >
       {children}
