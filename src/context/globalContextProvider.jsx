@@ -9,8 +9,9 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [senderName, setSenderName] = useState("blaszczyk");
   const [userMessages, setUserMessages] = useState([]);
+  const [numberOfUserMessages, setNumberOfUserMessages] = useState(0);
   const [chatterAvatar, setChatterAvatar] = useState("");
-  const { username: urlUsername } = useParams();
+  const { userName: urlUsername } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -28,6 +29,7 @@ const AppProvider = ({ children }) => {
             id: key,
             ...messages[key],
           }));
+          setNumberOfUserMessages(messagesArray.length);
           setUserMessages(messagesArray);
           setChatterAvatar(messagesArray[0].img);
         } else {
@@ -64,7 +66,12 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (urlUsername) setSenderName(urlUsername);
     fetchSpecificChatboxUser();
+    fetchAllChatboxNames();
+  }, [senderName, urlUsername]);
+
+  useEffect(() => {
     fetchAllChatboxNames();
   }, []);
 
@@ -99,6 +106,7 @@ const AppProvider = ({ children }) => {
         itemsPerPage,
         paginateMessages,
         chatboxUsernames,
+        numberOfUserMessages
       }}
     >
       {children}

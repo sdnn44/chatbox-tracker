@@ -1,13 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ChatterCard = ({ chatter }) => {
   // const router = useRouter();
   // const { setSearchedAdmin, setIsLoading, collapseMenu } = useGlobalState();
-  console.log(chatter);
+  const navigate = useNavigate();
+
   return (
     <div
       className="w-full flex flex-row m-1 hover:bg-violet-700/15 cursor-pointer gap-3 items-center p-2"
       onClick={() => {
+        navigate(`/chatter/${chatter}`);
+
         // router.push(`/admin/lipiec/${encodeURIComponent(admin.nickname)}`);
         // getSpecificAdmin(admin.nickname);
         // getSpecificAdminPlaytime(admin.nickname);

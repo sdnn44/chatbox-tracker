@@ -40,16 +40,16 @@ export const SinglePost = () => {
 
   return (
     <div className="w-full bg-[#230528] border-r-[1px] border-b-[1px] border-[#571464] h-[32rem] items-center justify-center flex flex-col gap-8 overflow-y-auto scrollbar-style ">
-      <div className="flex gap-5 item-start w-full">
+      <div className="flex gap-5 items-center w-full px-3">
         <button
-          className="bg-[#571464] p-2 text-white rounded-[10px] w-32"
+          className="bg-[#571464] p-2 text-white rounded-[10px] w-32 cursor-pointer hover:bg-[#420f4d] duration-300 ease-in-out"
           onClick={prevPage}
           disabled={currentPage === 1}
         >
           Poprzednia
         </button>
         <button
-          className="bg-[#571464] p-2 text-white rounded-[10px] w-32"
+          className="bg-[#571464] p-2 text-white rounded-[10px] w-32 cursor-pointer hover:bg-[#420f4d] duration-300 ease-in-out"
           onClick={nextPage}
           disabled={
             currentPage >= Math.ceil(userMessages.length / itemsPerPage)
@@ -57,6 +57,9 @@ export const SinglePost = () => {
         >
           Następna
         </button>
+        <h1 className="text-sm">
+          Strona {currentPage} z {Math.ceil(userMessages.length / itemsPerPage)}
+        </h1>
       </div>
       {paginatedMessages.map((message) => (
         <Message messages={message} senderName={senderName} key={message.id} />

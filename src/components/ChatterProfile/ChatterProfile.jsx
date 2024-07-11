@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../../context/globalContextProvider";
 
 export const ChatterProfile = () => {
-  const { senderName, chatterAvatar } = useGlobalContext();
+  const { senderName, chatterAvatar, numberOfUserMessages } = useGlobalContext();
   return (
     <div className="relative flex flex-col items-center justify-center gap-8 rounded-3xl border-[1px] border-[#571464] bg-[#3c193f] px-16 py-4 sm:flex-row sm:gap-24">
       <div className="relative flex flex-col justify-center items-center gap-2">
@@ -15,7 +15,7 @@ export const ChatterProfile = () => {
           <p className="text-lg transition-all duration-300 font-semibold">
             {senderName}
           </p>
-          <p className="text-sm text-[#8884d8]">3820 wpisów</p>
+          <p className="text-sm text-[#8884d8]">{numberOfUserMessages} wpisów</p>
         </div>
         {/* <p className="pointer-events-none absolute left-1/2 top-2 -translate-x-[120%] select-none text-5xl font-black italic text-transparent [-webkit-text-stroke:1px_theme(colors.primary)] [text-shadow:0_0_30px_theme(colors.primary/40)]">
           #1

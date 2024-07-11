@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           }
         />
         <Route
-          path="/user/:userName"
+          path="/chatter/:userName"
           element={
             <AppProvider>
               <App />
