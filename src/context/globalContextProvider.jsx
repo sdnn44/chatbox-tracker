@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [senderName, setSenderName] = useState("blaszczyk");
   const [userMessages, setUserMessages] = useState([]);
+  const [chatterAvatar, setChatterAvatar] = useState("");
   const { username: urlUsername } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +27,7 @@ const AppProvider = ({ children }) => {
             ...messages[key],
           }));
           setUserMessages(messagesArray);
+          setChatterAvatar(messagesArray[0].img)
           console.log(messagesArray);
         } else {
           console.log("No data available");
@@ -68,6 +70,7 @@ const AppProvider = ({ children }) => {
         loading,
         senderName,
         userMessages,
+        chatterAvatar,
         currentPage,
         nextPage,
         prevPage,

@@ -77,13 +77,13 @@ export const SearchBar = () => {
                 setNochatters(false);
             }}
             ref={parentRef}
-            className="hidden md:flex md:flex-col lg:w-[26rem] sm:w-full h-10 bg-[#0F1117ee] rounded-lg shadow-sm shadow-slate-500 z-20">
+            className="hidden md:flex md:flex-col lg:w-[26rem] sm:w-full h-10 bg-[#3c193f] rounded-lg shadow-sm shadow-[#6d3a77] z-20">
             <div className="w-full min-h-10 flex items-center px-4">
                 <span className="text-white align-middle mr-5 cursor-pointer">
                     <CiSearch size={20} />
                 </span>
                 <input
-                    className="w-full outline-none border-none text-sm font-light text-white rounded-2xl bg-transparent placeholder-white placeholder:opacity-50 focus:placeholder-transparent focus:outline-none"
+                    className="w-full outline-none border-none text-sm font-light text-white rounded-2xl bg-transparent placeholder-white placeholder:opacity-90 focus:placeholder-transparent focus:outline-none"
                     placeholder="Wyszukaj chattera..."
                     ref={inputRef}
                     value={searchQuery}
@@ -105,7 +105,7 @@ export const SearchBar = () => {
                     )}
                 </AnimatePresence>
             </div>
-            {isExpanded && (<span className="flex min-w-full min-h-[2px] bg-slate-500" />)}
+            {isExpanded && (<span className="flex min-w-full min-h-[2px] bg-[#6d3a77]" />)}
             {isExpanded && (<div className="flex flex-col h-full w-full overflow-hidden overflow-y-auto scrollbar-style">
                 {/* <div className="flex border-2 w-full h-full items-center justify-center"> */}
                 {isLoadingChatter && isExpanded && (<Loader />)}

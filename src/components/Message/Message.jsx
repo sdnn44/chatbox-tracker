@@ -29,7 +29,7 @@ const Message = ({ messages, senderName, jumpToRef }) => {
               dangerouslySetInnerHTML={{ __html: messages.message }}
             />
           ) : (
-            <div className="text-sm">{messages.message}</div>
+            <div className="text-[12px]">{messages.message}</div>
           )}
         </div>
       </div>
