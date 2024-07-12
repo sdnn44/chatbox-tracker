@@ -32,7 +32,7 @@ const Message = ({ messages, senderName, jumpToRef }) => {
           )}
         </div>
       </div>
-      <div className="flex">{messages.date}</div>
+      <div className="flex text-[15px]">{messages.date}</div>
     </div>
   );
 };

@@ -18,6 +18,7 @@ const AppProvider = ({ children }) => {
 
   const [chatboxUsernames, setChatboxUsernames] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [leaderboardEmotes, setLeaderboardEmotes] = useState([]);
 
   const fetchSpecificChatboxUser = () => {
     const dbRef = ref(database);
@@ -103,11 +104,53 @@ const AppProvider = ({ children }) => {
       });
   };
 
+  const fetchChatboxEmotesLeaderboard = () => {
+    const dbRef = ref(database);
+    get(child(dbRef, `chatbox/users`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const usersData = snapshot.val();
+          const userNames = Object.keys(usersData);
+
+          const userMessageCounts = userNames.map((username) => {
+            const messages = usersData[username].messages || {};
+            // Filter messages to only include those that match :text:
+            const filteredMessages = Object.values(messages).filter((message) =>
+            message.message.match(/^:[^:]+:$/)
+            );
+
+            return {
+              username,
+              messageCount: filteredMessages.length,
+            };
+          });
+
+          // Sort users by message count in descending order and get the top ten
+          const sortedUsers = userMessageCounts.sort(
+            (a, b) => b.messageCount - a.messageCount
+          );
+          const topUsers = sortedUsers.slice(0, 10);
+          setLeaderboardEmotes(topUsers);
+
+          console.log("Top Ten Users by Emotes:", topUsers);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (urlUsername) setSenderName(urlUsername);
     fetchSpecificChatboxUser();
     fetchAllChatboxNames();
     fetchChatboxLeaderboard();
+    fetchChatboxEmotesLeaderboard();
   }, [senderName, urlUsername]);
 
   useEffect(() => {
@@ -146,7 +189,8 @@ const AppProvider = ({ children }) => {
         paginateMessages,
         chatboxUsernames,
         numberOfUserMessages,
-        leaderboard
+        leaderboard,
+        leaderboardEmotes
       }}
     >
       {children}

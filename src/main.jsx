@@ -6,6 +6,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { AppProvider } from "./context/globalContextProvider";
 import "./index.css";
 import { Leaderboard } from "./pages/Leaderboard/Leaderboard";
+import { Spammer } from "./pages/Spammer/Spammer";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -33,6 +34,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <AppProvider>
               <Navbar />
               <Leaderboard />
+            </AppProvider>
+          }
+        />
+        <Route
+          path="/spammer-leaderboard"
+          element={
+            <AppProvider>
+              <Navbar />
+              <Spammer />
             </AppProvider>
           }
         />

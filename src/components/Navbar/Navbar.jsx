@@ -2,7 +2,7 @@ import React from "react";
 import { GiPodium } from "react-icons/gi";
 import { FaHome } from "react-icons/fa";
 import { LuMessagesSquare } from "react-icons/lu";
-import { FaRegSmileWink } from "react-icons/fa";
+import { GoProjectSymlink } from "react-icons/go";
 
 export const Navbar = () => {
   return (
@@ -21,18 +21,17 @@ export const Navbar = () => {
           <LuMessagesSquare size={20} /> Ranking wiadomości
         </a>
         <a
-          target="_blank"
           className="flex items-center gap-4 text-gray grayscale transition-all duration-300 hover:grayscale-0"
-          href=""
+          href="/spammer-leaderboard"
         >
-          <GiPodium size={20} /> Ranking emotkersów
+          <GiPodium size={20} /> Ranking spammerów
         </a>
         <a
           target="_blank"
           className="flex items-center gap-4 text-gray grayscale transition-all duration-300 hover:grayscale-0"
-          href=""
+          href="https://slajdev-projects.vercel.app/"
         >
-          <FaRegSmileWink size={20} /> Najczęściej używane emotki
+          <GoProjectSymlink size={20} /> Inne projekty
         </a>
       </div>
     </nav>

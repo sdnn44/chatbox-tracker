@@ -8,7 +8,7 @@ export const Table = () => {
     <div>
       <header className="text-3xl mb-2 podium_header">
         Użytkownicy z największą ilością{" "}
-        <span className="font-bold">wiadomości</span>:
+        <span className="tracking-wider">wiadomości</span>:
       </header>
       {leaderboard.map((chatter, index) => (
         <TableItem chatter={chatter} index={index} key={index} />

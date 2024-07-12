@@ -39,7 +39,7 @@ export const SinglePost = () => {
   const paginatedMessages = paginateMessages();
 
   return (
-    <div className="w-full bg-[#230528] border-r-[1px] border-b-[1px] border-[#571464] h-[32rem] items-center justify-center flex flex-col gap-8 overflow-y-auto scrollbar-style ">
+    <div className="w-full bg-gradient-to-r from-[#230528] to-[#2305282f] rounded-3xl  border-t-[1px] border-b-[1px] border-[#571464] h-[32rem] items-center justify-center flex flex-col gap-8 overflow-y-auto scrollbar-style ">
       <div className="flex gap-5 items-center w-full px-3">
         <button
           className="bg-[#571464] p-2 text-white rounded-[10px] w-32 cursor-pointer hover:bg-[#420f4d] duration-300 ease-in-out"
