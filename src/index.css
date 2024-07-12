@@ -37,7 +37,9 @@
     border-radius: 0px;
     border: 3px none #ffffff;
   }
-  
+  .custom-margin {
+    margin: min(30%, 5rem);
+  }
   .loader {
     width: 48px;
     height: 48px;
@@ -57,3 +59,38 @@
         transform: rotate(360deg);
     }
     } 
+
+    .podium-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60vh; /* Adjust as necessary */
+    }
+    
+    .podium {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+    
+    .podium > div:nth-child(1) {
+      grid-column: span 2;
+      justify-self: center;
+    }
+    
+    .podium > div:nth-child(2),
+    .podium > div:nth-child(3) {
+      justify-self: center;
+    }
+
+    .podium_header {
+      text-shadow: 0 0 2px #b02eca;
+      -webkit-text-stroke: 1px #b02eca;
+      color: transparent;
+    }
+    .podium_placement {
+      text-shadow: 0 0 40px #b02eca;
+      -webkit-text-stroke: 1px #b02eca;
+      color: transparent;
+    }

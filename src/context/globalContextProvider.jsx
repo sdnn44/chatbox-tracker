@@ -17,6 +17,7 @@ const AppProvider = ({ children }) => {
   const itemsPerPage = 5;
 
   const [chatboxUsernames, setChatboxUsernames] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
 
   const fetchSpecificChatboxUser = () => {
     const dbRef = ref(database);
@@ -65,10 +66,48 @@ const AppProvider = ({ children }) => {
       });
   };
 
+  const fetchChatboxLeaderboard = () => {
+    const dbRef = ref(database);
+    get(child(dbRef, `chatbox/users`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const usersData = snapshot.val();
+          const userNames = Object.keys(usersData);
+
+          const userMessageCounts = userNames.map((username) => {
+            const messages = usersData[username].messages || {};
+            return {
+              username,
+              messageCount: Object.keys(messages).length,
+            };
+          });
+
+          // Sort users by message count in descending order and get the top three
+          const sortedUsers = userMessageCounts.sort(
+            (a, b) => b.messageCount - a.messageCount
+          );
+          const topUsers = sortedUsers.slice(0, 10);
+
+          setLeaderboard(topUsers);
+
+          console.log("Top Three Users:", topUsers);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (urlUsername) setSenderName(urlUsername);
     fetchSpecificChatboxUser();
     fetchAllChatboxNames();
+    fetchChatboxLeaderboard();
   }, [senderName, urlUsername]);
 
   useEffect(() => {
@@ -106,7 +145,8 @@ const AppProvider = ({ children }) => {
         itemsPerPage,
         paginateMessages,
         chatboxUsernames,
-        numberOfUserMessages
+        numberOfUserMessages,
+        leaderboard
       }}
     >
       {children}
