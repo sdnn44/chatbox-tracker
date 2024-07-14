@@ -7,7 +7,7 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [senderName, setSenderName] = useState("blaszczyk");
+  const [senderName, setSenderName] = useState("Trivor");
   const [userMessages, setUserMessages] = useState([]);
   const [numberOfUserMessages, setNumberOfUserMessages] = useState(0);
   const [chatterAvatar, setChatterAvatar] = useState("");
@@ -20,13 +20,26 @@ const AppProvider = ({ children }) => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [leaderboardEmotes, setLeaderboardEmotes] = useState([]);
 
+  const [chatboxData, setChatboxData] = useState([]);
+
   const fetchSpecificChatboxUser = () => {
+    const cachedUserData = localStorage.getItem(`chatboxUser_${senderName}`);
+    if (cachedUserData) {
+      const data = JSON.parse(cachedUserData);
+      console.log("User messages from local storage:")
+      setUserMessages(data.messagesArray);
+      setNumberOfUserMessages(data.messagesArray.length);
+      setChatterAvatar(data.messagesArray[0]?.img || "");
+      setLoading(false);
+      return;
+    }
+
     const dbRef = ref(database);
     get(child(dbRef, `chatbox/users/${senderName}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const messages = snapshot.val().messages;
-          // Convert the messages object to an array
+
           const messagesArray = Object.keys(messages).map((key) => ({
             id: key,
             ...messages[key],
@@ -34,6 +47,11 @@ const AppProvider = ({ children }) => {
           setNumberOfUserMessages(messagesArray.length);
           setUserMessages(messagesArray);
           setChatterAvatar(messagesArray[0].img);
+
+          localStorage.setItem(
+            `chatboxUser_${senderName}`,
+            JSON.stringify({ messagesArray })
+          );
         } else {
           console.log("No data available");
         }
@@ -47,6 +65,14 @@ const AppProvider = ({ children }) => {
   };
 
   const fetchAllChatboxNames = () => {
+    const cachedUserNames = localStorage.getItem("chatboxUsernames");
+    if (cachedUserNames) {
+      console.log("setChatboxUsernames from local storage:")
+      setChatboxUsernames(JSON.parse(cachedUserNames));
+      setLoading(false);
+      return;
+    }
+
     const dbRef = ref(database);
     get(child(dbRef, `chatbox/users`))
       .then((snapshot) => {
@@ -55,6 +81,7 @@ const AppProvider = ({ children }) => {
           const userNames = Object.keys(usersData);
           console.log(userNames);
           setChatboxUsernames(userNames);
+          localStorage.setItem("chatboxUsernames", JSON.stringify(userNames));
         } else {
           console.log("No data available");
         }
@@ -83,7 +110,6 @@ const AppProvider = ({ children }) => {
             };
           });
 
-          // Sort users by message count in descending order and get the top three
           const sortedUsers = userMessageCounts.sort(
             (a, b) => b.messageCount - a.messageCount
           );
@@ -114,9 +140,8 @@ const AppProvider = ({ children }) => {
 
           const userMessageCounts = userNames.map((username) => {
             const messages = usersData[username].messages || {};
-            // Filter messages to only include those that match :text:
             const filteredMessages = Object.values(messages).filter((message) =>
-            message.message.match(/^:[^:]+:$/)
+              message.message.match(/^:[^:]+:$/)
             );
 
             return {
@@ -125,7 +150,6 @@ const AppProvider = ({ children }) => {
             };
           });
 
-          // Sort users by message count in descending order and get the top ten
           const sortedUsers = userMessageCounts.sort(
             (a, b) => b.messageCount - a.messageCount
           );
@@ -145,16 +169,85 @@ const AppProvider = ({ children }) => {
       });
   };
 
+  const fetchChatboxLeaderboards = () => {
+    const cachedLeaderboard = localStorage.getItem("chatboxLeaderboard");
+    const cachedEmotesLeaderboard = localStorage.getItem(
+      "chatboxEmotesLeaderboard"
+    );
+    if (cachedLeaderboard && cachedEmotesLeaderboard) {
+      console.log("chatboxLeaderboard from local storage:")
+      setLeaderboard(JSON.parse(cachedLeaderboard));
+      setLeaderboardEmotes(JSON.parse(cachedEmotesLeaderboard));
+      setLoading(false);
+      return;
+    }
+
+    const dbRef = ref(database);
+    get(child(dbRef, `chatbox/users`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const usersData = snapshot.val();
+          const userNames = Object.keys(usersData);
+
+          const userMessageCounts = userNames.map((username) => {
+            const messages = usersData[username].messages || {};
+            return {
+              username,
+              messageCount: Object.keys(messages).length,
+            };
+          });
+
+          const userEmoteCounts = userNames.map((username) => {
+            const messages = usersData[username].messages || {};
+            const filteredMessages = Object.values(messages).filter((message) =>
+              message.message.match(/^:[^:]+:$/)
+            );
+            return {
+              username,
+              messageCount: filteredMessages.length,
+            };
+          });
+
+          const sortedMessageUsers = userMessageCounts.sort(
+            (a, b) => b.messageCount - a.messageCount
+          );
+          const topMessageUsers = sortedMessageUsers.slice(0, 10);
+          setLeaderboard(topMessageUsers);
+          localStorage.setItem("chatboxLeaderboard", JSON.stringify(topMessageUsers));
+
+          const sortedEmoteUsers = userEmoteCounts.sort(
+            (a, b) => b.messageCount - a.messageCount
+          );
+          const topEmoteUsers = sortedEmoteUsers.slice(0, 10);
+          setLeaderboardEmotes(topEmoteUsers);
+          localStorage.setItem("chatboxEmotesLeaderboard", JSON.stringify(topEmoteUsers));
+
+          console.log("Top Ten Users by Messages:", topMessageUsers);
+          console.log("Top Ten Users by Emotes:", topEmoteUsers);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (urlUsername) setSenderName(urlUsername);
     fetchSpecificChatboxUser();
-    fetchAllChatboxNames();
-    fetchChatboxLeaderboard();
-    fetchChatboxEmotesLeaderboard();
+    // fetchSpecificChatboxUser();
+    // fetchAllChatboxNames();
+    // fetchChatboxLeaderboard();
+    // fetchChatboxEmotesLeaderboard();
   }, [senderName, urlUsername]);
 
   useEffect(() => {
     fetchAllChatboxNames();
+    fetchChatboxLeaderboards();
   }, []);
 
   const paginateMessages = () => {
@@ -190,7 +283,9 @@ const AppProvider = ({ children }) => {
         chatboxUsernames,
         numberOfUserMessages,
         leaderboard,
-        leaderboardEmotes
+        leaderboardEmotes,
+        // fetchChatboxLeaderboard,
+        // fetchChatboxEmotesLeaderboard,
       }}
     >
       {children}
