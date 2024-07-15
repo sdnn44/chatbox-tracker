@@ -71,7 +71,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
-      gap: 20px;
     }
     
     .podium > div:nth-child(1) {
@@ -83,10 +82,14 @@
     .podium > div:nth-child(3) {
       justify-self: center;
     }
-
+    @media (min-width: 640px) { 
+     .podium {
+        gap: 20px;
+      }
+     }
     .podium_header {
-      text-shadow: 0 0 2px #b02eca;
-      -webkit-text-stroke: 1px #b02eca;
+      text-shadow: 0 0 2px #b02eca9c;
+      -webkit-text-stroke: 1px #b02eca9c;
       color: transparent;
     }
     .podium_placement {

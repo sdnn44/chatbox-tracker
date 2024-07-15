@@ -12,7 +12,7 @@ export const TableItem = ({ chatter, index }) => {
           }}
           className="border-[1px] border-[#571464] flex cursor-pointer bg-[#3c193f] hover:bg-[#5d2761] items-center justify-around gap-4 w-full transition-[background-color] duration-[0.3s] p-4 rounded-2xl"
         >
-          <span className="first:text-base first:font-[bold]">
+          <span className="text-[14px] md:text-base first:font-[bold]">
             #{index + 1}
           </span>
           <img
@@ -20,10 +20,10 @@ export const TableItem = ({ chatter, index }) => {
             src="/assets/user.png"
             alt={chatter.username}
           />
-          <p className="w-full text-center text-xl tracking-widest break-all">
+          <p className="w-full text-center text-base md:text-xl tracking-widest break-all">
             {chatter.username}
           </p>
-          <span className="text-[#fff] w-[min(30%,20rem)]">
+          <span className="text-[#fff] w-[min(30%,20rem)] text-[14px] md:text-base">
             {chatter.messageCount} wpisów
           </span>
         </li>

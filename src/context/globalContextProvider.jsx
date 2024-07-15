@@ -284,6 +284,7 @@ const AppProvider = ({ children }) => {
         numberOfUserMessages,
         leaderboard,
         leaderboardEmotes,
+        setCurrentPage
         // fetchChatboxLeaderboard,
         // fetchChatboxEmotesLeaderboard,
       }}

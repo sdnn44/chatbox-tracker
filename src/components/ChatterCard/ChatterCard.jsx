@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../context/globalContextProvider";
 
 const ChatterCard = ({ chatter }) => {
   // const router = useRouter();
-  // const { setSearchedAdmin, setIsLoading, collapseMenu } = useGlobalState();
+  const { setCurrentPage } = useGlobalContext();
   const navigate = useNavigate();
 
   return (
@@ -11,7 +12,7 @@ const ChatterCard = ({ chatter }) => {
       className="w-full flex flex-row m-1 hover:bg-violet-700/15 cursor-pointer gap-3 items-center p-2"
       onClick={() => {
         navigate(`/chatter/${chatter}`);
-
+        setCurrentPage(1);
         // router.push(`/admin/lipiec/${encodeURIComponent(admin.nickname)}`);
         // getSpecificAdmin(admin.nickname);
         // getSpecificAdminPlaytime(admin.nickname);

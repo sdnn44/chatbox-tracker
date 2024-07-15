@@ -85,7 +85,7 @@ export const SearchBar = () => {
         setNochatters(false);
       }}
       ref={parentRef}
-      className="hidden md:flex md:flex-col lg:w-[26rem] sm:w-full h-10 bg-[#3c193f] rounded-lg shadow-sm shadow-[#6d3a77] z-20"
+      className="flex flex-col lg:w-[26rem] sm:w-full h-10 bg-[#3c193f] rounded-lg shadow-sm shadow-[#6d3a77] z-20"
     >
       <div className="w-full min-h-10 flex items-center px-4">
         <span className="text-white align-middle mr-5 cursor-pointer">

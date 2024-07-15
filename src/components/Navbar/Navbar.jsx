@@ -36,14 +36,16 @@ export const Navbar = () => {
   return (
     <nav className="relative w-full">
       <div className="flex items-center justify-between px-4 py-5 xl:hidden">
-        <div className="text-white tracking-widest">chatbox-tracker</div>
+        <a className="text-white font-semibold tracking-widest" href={"/"}>
+          chatbox-tracker
+        </a>
         <button onClick={toggleMenu} className="text-white">
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
 
       <div
-        className={`xl:flex rounded-2xl border-[1px] border-[#571464] bg-[#3c193f] px-14 py-5 backdrop-blur-md ${
+        className={`xl:flex md:rounded-2xl border-[1px] border-[#571464] bg-[#3c193f] px-14 py-5 backdrop-blur-md ${
           isOpen ? "block" : "hidden"
         } xl:flex`}
       >

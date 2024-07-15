@@ -1,6 +1,10 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 3rem;
   text-align: center;
 }
+@media (min-width: 640px) { 
+  #root {
+    padding: 3rem;
+  }
+ }
