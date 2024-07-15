@@ -17,9 +17,6 @@ export const ChatterProfile = () => {
           </p>
           <p className="text-sm text-[#8884d8]">{numberOfUserMessages} wpisów</p>
         </div>
-        {/* <p className="pointer-events-none absolute left-1/2 top-2 -translate-x-[120%] select-none text-5xl font-black italic text-transparent [-webkit-text-stroke:1px_theme(colors.primary)] [text-shadow:0_0_30px_theme(colors.primary/40)]">
-          #1
-        </p> */}
       </div>
       <p className="absolute left-1/2 bg-[#230528] border-[1px] border-[#571464] top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-3xl px-4 py-[5px] text-sm">
         Użytkownik

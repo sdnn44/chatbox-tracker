@@ -94,3 +94,11 @@
       -webkit-text-stroke: 1px #b02eca;
       color: transparent;
     }
+    .active {
+      font-weight: 600;
+      text-decoration: underline;
+      /* text-decoration-color: #b02eca; */
+    }
+    nav ul li a:not(.active):hover {
+      color:#8884d8 ;
+  }
