@@ -64,9 +64,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 60vh; /* Adjust as necessary */
+      height: 40vh; 
+
     }
-    
+    @media (min-width: 640px) { 
+      .podium-container {
+        height: 60vh; 
+       }
+      }
     .podium {
       display: grid;
       grid-template-columns: 1fr 1fr;

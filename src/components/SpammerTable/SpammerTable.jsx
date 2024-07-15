@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import { useGlobalContext } from "../../context/globalContextProvider";
 import { TableItem } from "../TableItem/TableItem";
 
