@@ -1,14 +1,10 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import { replaceEmoticons } from "../../data/emoticon-map";
 
 const Message = ({ messages, senderName, index, jumpToRef }) => {
   const ref = useRef();
-  const isEmote = (str) => {
-    const regex =
-      /<img src="https:\/\/strefaskilla\.pl\/uploads\/emoticons\/[^"]+\.png" loading="lazy" title=":tf:" alt=":tf:" data-emoticon="true">/;
-    return regex.test(str);
-  };
-
+  const processedMessage = replaceEmoticons(messages.message);
   return (
     <motion.div
       initial={{ opacity: 0, translateY: -50 }}
@@ -30,16 +26,10 @@ const Message = ({ messages, senderName, index, jumpToRef }) => {
               {messages.date}
             </span>
           </div>
-          {isEmote(messages.message) ? (
-            <div
-              className="text-sm"
-              dangerouslySetInnerHTML={{ __html: messages.message }}
-            />
-          ) : (
-            <div className="text-[11px] md:text-[12px] text-left">
-              {messages.message}
-            </div>
-          )}
+          <div
+            className="text-[11px] md:text-[12px] text-left"
+            dangerouslySetInnerHTML={{ __html: processedMessage }}
+          >{/* {messages.message} */}</div>
         </div>
       </div>
       {/* <div className="flex text-[10px] md:text-[15px]">{messages.date}</div> */}
