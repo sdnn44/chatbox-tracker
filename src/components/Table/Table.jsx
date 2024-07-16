@@ -9,7 +9,7 @@ export const Table = () => {
   // }, []);
 
   return (
-    <div>
+    <div className="p-1">
       <header className="text-3xl mb-2 podium_header">
         Użytkownicy z największą ilością{" "}
         <span className="tracking-wider">wiadomości</span>:

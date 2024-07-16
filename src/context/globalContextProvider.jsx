@@ -1,6 +1,5 @@
 import { child, get, ref } from "firebase/database";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { database } from "../firebase/firebase";
 
 const AppContext = React.createContext();
@@ -11,8 +10,6 @@ const AppProvider = ({ children }) => {
   const [userMessages, setUserMessages] = useState([]);
   const [numberOfUserMessages, setNumberOfUserMessages] = useState(0);
   const [chatterAvatar, setChatterAvatar] = useState("");
-  const { userName: urlUsername } = useParams();
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -20,13 +17,11 @@ const AppProvider = ({ children }) => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [leaderboardEmotes, setLeaderboardEmotes] = useState([]);
 
-  const [chatboxData, setChatboxData] = useState([]);
-
   const fetchSpecificChatboxUser = () => {
     const cachedUserData = localStorage.getItem(`chatboxUser_${senderName}`);
     if (cachedUserData) {
       const data = JSON.parse(cachedUserData);
-      console.log("User messages from local storage:")
+      console.log("User messages from local storage:");
       setUserMessages(data.messagesArray);
       setNumberOfUserMessages(data.messagesArray.length);
       setChatterAvatar(data.messagesArray[0]?.img || "");
@@ -67,7 +62,7 @@ const AppProvider = ({ children }) => {
   const fetchAllChatboxNames = () => {
     const cachedUserNames = localStorage.getItem("chatboxUsernames");
     if (cachedUserNames) {
-      console.log("setChatboxUsernames from local storage:")
+      console.log("setChatboxUsernames from local storage:");
       setChatboxUsernames(JSON.parse(cachedUserNames));
       setLoading(false);
       return;
@@ -170,12 +165,14 @@ const AppProvider = ({ children }) => {
   };
 
   const fetchChatboxLeaderboards = () => {
+    const cachedUserNames = localStorage.getItem("chatboxUsernames");
     const cachedLeaderboard = localStorage.getItem("chatboxLeaderboard");
     const cachedEmotesLeaderboard = localStorage.getItem(
       "chatboxEmotesLeaderboard"
     );
-    if (cachedLeaderboard && cachedEmotesLeaderboard) {
-      console.log("chatboxLeaderboard from local storage:")
+    if (cachedUserNames && cachedLeaderboard && cachedEmotesLeaderboard) {
+      console.log("chatboxLeaderboard from local storage:");
+      setChatboxUsernames(JSON.parse(cachedUserNames));
       setLeaderboard(JSON.parse(cachedLeaderboard));
       setLeaderboardEmotes(JSON.parse(cachedEmotesLeaderboard));
       setLoading(false);
@@ -189,6 +186,9 @@ const AppProvider = ({ children }) => {
           const usersData = snapshot.val();
           const userNames = Object.keys(usersData);
 
+          setChatboxUsernames(userNames);
+          localStorage.setItem("chatboxUsernames", JSON.stringify(userNames));
+
           const userMessageCounts = userNames.map((username) => {
             const messages = usersData[username].messages || {};
             return {
@@ -200,7 +200,7 @@ const AppProvider = ({ children }) => {
           const userEmoteCounts = userNames.map((username) => {
             const messages = usersData[username].messages || {};
             const filteredMessages = Object.values(messages).filter((message) =>
-              message.message.match(/^:[^:]+:$/)
+              message.message.match(/^(@[^\s:]+ :[^\s:]+:|:[^\s:]+:)$/)
             );
             return {
               username,
@@ -213,14 +213,20 @@ const AppProvider = ({ children }) => {
           );
           const topMessageUsers = sortedMessageUsers.slice(0, 10);
           setLeaderboard(topMessageUsers);
-          localStorage.setItem("chatboxLeaderboard", JSON.stringify(topMessageUsers));
+          localStorage.setItem(
+            "chatboxLeaderboard",
+            JSON.stringify(topMessageUsers)
+          );
 
           const sortedEmoteUsers = userEmoteCounts.sort(
             (a, b) => b.messageCount - a.messageCount
           );
           const topEmoteUsers = sortedEmoteUsers.slice(0, 10);
           setLeaderboardEmotes(topEmoteUsers);
-          localStorage.setItem("chatboxEmotesLeaderboard", JSON.stringify(topEmoteUsers));
+          localStorage.setItem(
+            "chatboxEmotesLeaderboard",
+            JSON.stringify(topEmoteUsers)
+          );
 
           console.log("Top Ten Users by Messages:", topMessageUsers);
           console.log("Top Ten Users by Emotes:", topEmoteUsers);
@@ -237,16 +243,16 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (urlUsername) setSenderName(urlUsername);
     fetchSpecificChatboxUser();
     // fetchSpecificChatboxUser();
     // fetchAllChatboxNames();
     // fetchChatboxLeaderboard();
     // fetchChatboxEmotesLeaderboard();
-  }, [senderName, urlUsername]);
+    console.log(senderName);
+  }, [senderName]);
 
   useEffect(() => {
-    fetchAllChatboxNames();
+    // fetchAllChatboxNames();
     fetchChatboxLeaderboards();
   }, []);
 
@@ -273,6 +279,7 @@ const AppProvider = ({ children }) => {
       value={{
         loading,
         senderName,
+        setSenderName,
         userMessages,
         chatterAvatar,
         currentPage,
@@ -284,7 +291,7 @@ const AppProvider = ({ children }) => {
         numberOfUserMessages,
         leaderboard,
         leaderboardEmotes,
-        setCurrentPage
+        setCurrentPage,
         // fetchChatboxLeaderboard,
         // fetchChatboxEmotesLeaderboard,
       }}

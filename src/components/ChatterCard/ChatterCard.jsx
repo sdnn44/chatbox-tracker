@@ -4,7 +4,7 @@ import { useGlobalContext } from "../../context/globalContextProvider";
 
 const ChatterCard = ({ chatter }) => {
   // const router = useRouter();
-  const { setCurrentPage } = useGlobalContext();
+  const { setSenderName, setCurrentPage } = useGlobalContext();
   const navigate = useNavigate();
 
   return (
@@ -12,6 +12,7 @@ const ChatterCard = ({ chatter }) => {
       className="w-full flex flex-row m-1 hover:bg-violet-700/15 cursor-pointer gap-3 items-center p-2"
       onClick={() => {
         navigate(`/chatter/${chatter}`);
+        localStorage.setItem("senderName", JSON.stringify(chatter));
         setCurrentPage(1);
         // router.push(`/admin/lipiec/${encodeURIComponent(admin.nickname)}`);
         // getSpecificAdmin(admin.nickname);

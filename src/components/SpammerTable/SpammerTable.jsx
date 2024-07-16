@@ -10,7 +10,7 @@ export const SpammerTable = () => {
   // }, []);
 
   return (
-    <div className="p-10">
+    <div className="p-1">
       <header className="text-3xl mb-4 podium_header">
         Użytkownicy z największą ilością wysłanych{" "}
         <span className="tracking-wider">emotek</span>:

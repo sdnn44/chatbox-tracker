@@ -61,8 +61,8 @@ export const SinglePost = () => {
           Strona {currentPage} z {Math.ceil(userMessages.length / itemsPerPage)}
         </h1>
       </div>
-      {paginatedMessages.map((message) => (
-        <Message messages={message} senderName={senderName} key={message.id} />
+      {paginatedMessages.map((message, index) => (
+        <Message messages={message} senderName={senderName} index={index} key={message.id} />
       ))}
     </div>
   );

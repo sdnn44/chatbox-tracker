@@ -11,15 +11,17 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   /* background-color: #230528; */
-  background-image: url("./assets/bg.webp");
-  background-image: image-set("/../images/image-370x370.webp", "./assets/bg.webp");
-  background-image: -webkit-image-set("/../images/image-370x370.webp", "./assets/bg.webp");
-
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+body {
+  background-image: url("/assets/bg.webp");
+  background-image: image-set("/assets/bg.webp", "/assets/bg.webp");
+  background-image: -webkit-image-set("/assets/bg.webp", "/assets/bg.webp");
 }
 
   /* Chrome, Edge, and Safari */
@@ -109,4 +111,14 @@
     }
     nav ul li a:not(.active):hover {
       color:#8884d8 ;
+  }
+  .privacy-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(34,10,38);
+/* background: linear-gradient(90deg, rgba(34,10,38,1) 25%, rgba(58,13,67,1) 60%, rgba(58,13,67,1) 90%); */
+    z-index: 100;
   }

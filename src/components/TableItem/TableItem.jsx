@@ -1,10 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const TableItem = ({ chatter, index }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col items-center justify-center w-full mb-2">
+    <motion.div
+      initial={{ opacity: 0, translateX: index % 2 === 0 ? -50 : 50 }}
+      animate={{ opacity: 1, translateX: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.3 }}
+      className="flex flex-col items-center justify-center w-full mb-2"
+    >
       <ul className="flex flex-col gap-1 md:w-1/2 w-[min(22rem,25rem)]">
         <li
           onClick={() => {
@@ -28,6 +34,6 @@ export const TableItem = ({ chatter, index }) => {
           </span>
         </li>
       </ul>
-    </div>
+    </motion.div>
   );
 };

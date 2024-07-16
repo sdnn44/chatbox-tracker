@@ -1,5 +1,7 @@
 import React, { useRef } from "react";
-const Message = ({ messages, senderName, jumpToRef }) => {
+import { motion } from "framer-motion";
+
+const Message = ({ messages, senderName, index, jumpToRef }) => {
   const ref = useRef();
   const isEmote = (str) => {
     const regex =
@@ -8,7 +10,10 @@ const Message = ({ messages, senderName, jumpToRef }) => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, translateY: -50 }}
+      animate={{ opacity: 1, translateY: 0 }}
+      transition={{ duration: 0.2, delay: index * 0.2 }}
       className="border-t-[1px] border-[#571464] h-16 md:h-12 w-full flex md:p-2 px-2 md:px-5 justify-between items-center"
       ref={messages.id === jumpToRef?.current?.id ? jumpToRef : ref}
     >
@@ -38,7 +43,7 @@ const Message = ({ messages, senderName, jumpToRef }) => {
         </div>
       </div>
       {/* <div className="flex text-[10px] md:text-[15px]">{messages.date}</div> */}
-    </div>
+    </motion.div>
   );
 };
 
