@@ -9,7 +9,7 @@ const Message = ({ messages, senderName, index, jumpToRef }) => {
     <motion.div
       initial={{ opacity: 0, translateY: -50 }}
       animate={{ opacity: 1, translateY: 0 }}
-      transition={{ duration: 0.2, delay: index * 0.2 }}
+      transition={{ duration: 0.1, delay: index * 0.1 }}
       className="border-t-[1px] border-[#571464] h-16 md:h-12 w-full flex md:p-2 px-2 md:px-5 justify-between items-center"
       ref={messages.id === jumpToRef?.current?.id ? jumpToRef : ref}
     >
